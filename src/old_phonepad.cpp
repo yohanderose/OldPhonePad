@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-#define DEBUG 1
+#define DEBUG 0
 
 class OldPhonePad : public PhonePad {
 

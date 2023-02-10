@@ -16,11 +16,20 @@ Extensible module that converts old brick phone key presses to readable words.
 1. Clone, cd inside and
 
 ```sh
-make ru️n
+make demo
+# 4433555 555666# --> HELLO
+# 8 88777444666*664# --> TURING
+
+```
+
+For manual input
+
+```sh
+make run < your_input.txt
 ```
 
 ## Test :wrench:
 
 ```sh
-make test
+make tests
 ```

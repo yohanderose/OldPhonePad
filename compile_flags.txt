@@ -1,1 +1,3 @@
 -I./include
+-I./src
+-D_DEBUG
