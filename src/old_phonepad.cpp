@@ -7,26 +7,27 @@
 #include <vector>
 
 #define DEBUG 0
+using namespace std;
 
 class OldPhonePad : public PhonePad {
 
 private:
-  std::map<std::string, std::vector<char>> m_tokenToLetterMap = {
+  map<string, vector<char>> m_tokenToLetterMap = {
       {"2", {'A', 'B', 'C'}}, {"3", {'D', 'E', 'F'}},
       {"4", {'G', 'H', 'I'}}, {"5", {'J', 'K', 'L'}},
       {"6", {'M', 'N', 'O'}}, {"7", {'P', 'Q', 'R', 'S'}},
       {"8", {'T', 'U', 'V'}}, {"9", {'W', 'X', 'Y', 'Z'}},
   };
 
-  std::vector<std::string> tokenise(const std::string &inputString) override {
-    std::vector<std::string> res;
-    std::string curr;
+  vector<string> tokenise(const string &inputString) override {
+    /*
+     * Accepts a string of digits and returns a vector of token strings.
+     */
+
+    vector<string> res;
+    string curr;
 
     for (auto c : inputString) {
-      /* if (c == '0' || c == '1') { */
-      /*   continue; */
-      /* } */
-
       if (c == ' ') {
         res.push_back(curr);
         curr = "";
@@ -46,22 +47,30 @@ private:
     return res;
   }
 
-  std::string
-  mapTokensToLetters(const std::vector<std::string> tokens) override {
-    std::string result;
-    std::stringstream letterStream;
-    std::string token;
-    std::string keyButton;
+  string mapTokensToLetters(const vector<string> tokens) override {
+    /*
+     * Accepts a vector of token strings and converts each token to a letter,
+     * returning the resulting string.
+     */
+
+    string result;
+    stringstream letterStream;
+    string token;
+    string keyButton;
     int letterIndex;
 
     for (int i = tokens.size() - 1; i >= 0; i--) {
       token = tokens[i];
       if (token == "*") {
+        // If the token is a backspace, remove the subsequent letter
         i -= 1;
         continue;
       }
 
+      // The first character of the token is the key button
       keyButton = token.substr(0, 1);
+      // The letter index is the number of times the key button was pressed,
+      // modulo the number of letters on that key
       letterIndex = (token.size() - 1) % m_tokenToLetterMap[keyButton].size();
 
       letterStream << m_tokenToLetterMap[keyButton][letterIndex];
@@ -74,22 +83,26 @@ private:
   }
 
 public:
-  std::string decode(const std::string &encodedString) override {
+  string decode(const string &encodedString) override {
+    /*
+     * Accepts a string of digits and returns the corresponding string of
+     * letters defined in this OldPhone.
+     */
 
 #if DEBUG
-    std::cout << "OldPhonePad::decode: " << encodedString << " -> ";
+    cout << "OldPhonePad::decode: " << encodedString << " -> ";
 #endif
 
-    std::vector<std::string> tokens = tokenise(encodedString);
-    std::string letters = mapTokensToLetters(tokens);
+    vector<string> tokens = tokenise(encodedString);
+    string letters = mapTokensToLetters(tokens);
 
 #if DEBUG
     for (int i = 0; i < tokens.size(); i++) {
-      std::cout << tokens[i] << (i < tokens.size() - 1 ? "," : "");
+      cout << tokens[i] << (i < tokens.size() - 1 ? "," : "");
     }
 
-    std::cout << " -> " << letters;
-    std::cout << std::endl;
+    cout << " -> " << letters;
+    cout << endl;
 #endif
 
     return letters;

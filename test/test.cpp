@@ -37,7 +37,12 @@ int main() {
       {"*", ""},
       {"*#", ""},
       // Backspaces
-      {"666*666#", "O"}};
+      {"666*666#", "O"},
+      // Pause agnostic
+      {"3322 22#", "EBB"},
+      {"3322 3#", "EBD"},
+      {"33223#", "EBD"},
+  };
 
   for (auto &c : cases) {
     input = c.first;
